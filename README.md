@@ -13,7 +13,7 @@ Download the wheel file from the release page.
 Install with pipx
 
 ```
-pipx install path/to/wheel/md2pdf-0.1.0-py3-none-any.whl
+pipx install path/to/wheel/md2pdf-0.1.0.whl
 ```
 
 Run with `md2pdf path/to/input/input.md`
