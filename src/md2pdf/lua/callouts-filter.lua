@@ -26,43 +26,22 @@ local iconColours = {
 	CAUTION = "#f85149",
 }
 
-local iconColoursCatppuccin = {
-	WARNING = "#f9e2af",
-	NOTE = "#89b4fa",
-	IMPORTANT = "#cba6f7",
-	TIP = "#a6e3a1",
-	CAUTION = "#f38ba8",
+local icon = {
+	WARNING = string.format(svg_warning, iconColours["WARNING"]),
+	NOTE = string.format(svg_note, iconColours["NOTE"]),
+	IMPORTANT = string.format(svg_important, iconColours["IMPORTANT"]),
+	TIP = string.format(svg_tip, iconColours["TIP"]),
+	CAUTION = string.format(svg_caution, iconColours["CAUTION"]),
 }
 
--- local icon = {
--- 	WARNING = string.format(svg_warning, iconColours["WARNING"]),
--- 	NOTE = string.format(svg_note, iconColours["NOTE"]),
--- 	IMPORTANT = string.format(svg_important, iconColours["IMPORTANT"]),
--- 	TIP = string.format(svg_tip, iconColours["TIP"]),
--- 	CAUTION = string.format(svg_caution, iconColours["CAUTION"]),
--- }
-
-local theme = ""
-
-function Meta(meta)
-	theme = pandoc.utils.stringify(meta.theme or "github-markdown-dark")
-end
+-- TODO: Add more themes handling
+-- local theme = ""
+--
+-- function Meta(meta)
+-- 	theme = pandoc.utils.stringify(meta.theme or "github-markdown-dark")
+-- end
 
 function BlockQuote(el)
-	local iconsColoursToUse = iconColours
-
-	if theme ~= "github-markdown-dark" then
-		iconsColoursToUse = iconColoursCatppuccin
-	end
-
-	local icon = {
-		WARNING = string.format(svg_warning, iconsColoursToUse["WARNING"]),
-		NOTE = string.format(svg_note, iconsColoursToUse["NOTE"]),
-		IMPORTANT = string.format(svg_important, iconsColoursToUse["IMPORTANT"]),
-		TIP = string.format(svg_tip, iconsColoursToUse["TIP"]),
-		CAUTION = string.format(svg_caution, iconsColoursToUse["CAUTION"]),
-	}
-
 	local firstLine = el.content[1]
 	if firstLine.t == "Para" and firstLine.content[1].t == "Str" then
 		local str = firstLine.content[1].text

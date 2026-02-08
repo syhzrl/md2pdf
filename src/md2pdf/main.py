@@ -21,7 +21,7 @@ def convertToHTML(
             "pandoc",
             str(input_file),
             "-M",
-            "theme=lmao",
+            "theme=github-markdown-dark",  # theme metadata does nothing for now. should just default to github-markdown-dark
             "-o",
             str(temp_html_path),
             "--template",
@@ -33,11 +33,9 @@ def convertToHTML(
     )
 
 
-def convertHTMLtoPDF(inputFile: Path, tempFile: Path, cssFile: Path):
-    output_filename = inputFile.with_suffix(".pdf")
-
+def convertHTMLtoPDF(tempFile: Path, cssFile: Path, output_filename: Path):
     HTML(filename=tempFile).write_pdf(
-        output_filename, stylesheets=[CSS(filename=cssFile)]
+        filename=output_filename, stylesheets=[CSS(filename=cssFile)]
     )
 
 
@@ -47,11 +45,16 @@ def main(filename: Path):
     lua_filter_path = get_resource_path("lua/callouts-filter.lua")
     temp_html_path = get_resource_path("temp.html")
     css_path = get_resource_path("github-markdown-dark.css")
+    output_filename = filename.with_suffix(".pdf")
 
-    print("converting to HTML")
+    # TODO: Implement error handling for user input
+    print("⏳ Converting To HTML")
     convertToHTML(filename, temp_html_path, template_path, lua_filter_path)
-    convertHTMLtoPDF(filename, temp_html_path, css_path)
-    print("Done!")
+    print("HTML Conversion Success ✅")
+
+    print("⏳ Converting To PDF")
+    convertHTMLtoPDF(temp_html_path, css_path, output_filename)
+    print(f"PDF Conversion Success ✅. File is available at {str(output_filename)}")
 
 
 if __name__ == "__main__":
